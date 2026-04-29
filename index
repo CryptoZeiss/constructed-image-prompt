@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Constructed Image — Production Sheet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black: #0a0a0a;
+    --dark: #111111;
+    --card: #161616;
+    --border: #2a2a2a;
+    --border-active: #555;
+    --text: #e8e4dc;
+    --muted: #6a6560;
+    --accent: #c8a96e;
+    --accent-dim: rgba(200, 169, 110, 0.12);
+    --red: #c86e6e;
+    --mono: 'DM Mono', monospace;
+    --serif: 'Cormorant Garamond', Georgia, serif;
+  }
+
+  html, body {
+    background: var(--black);
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 13px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  .app {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  /* Header */
+  .header {
+    margin-bottom: 40px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .header-label {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+
+  .header h1 {
+    font-family: var(--serif);
+    font-size: 32px;
+    font-weight: 400;
+    color: var(--text);
+    line-height: 1.2;
+  }
+
+  .header h1 em {
+    color: var(--accent);
+    font-style: italic;
+  }
+
+  .header-sub {
+    margin-top: 10px;
+    color: var(--muted);
+    font-size: 12px;
+    max-width: 560px;
+    line-height: 1.7;
+  }
+
+  /* Progress */
+  .progress {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 36px;
+  }
+
+  .progress-step {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    cursor: pointer;
+    opacity: 0.4;
+    transition: opacity 0.2s;
+  }
+
+  .progress-step.active { opacity: 1; }
+  .progress-step.done { opacity: 0.7; }
+  .progress-step:hover { opacity: 0.85; }
+
+  .progress-bar {
+    height: 2px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .progress-step.active .progress-bar,
+  .progress-step.done .progress-bar {
+    background: var(--accent);
+  }
+
+  .progress-label {
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  .progress-step.active .progress-label { color: var(--accent); }
+
+  /* Step */
+  .step { display: none; }
+  .step.active { display: block; }
+
+  .step-header {
+    margin-bottom: 28px;
+  }
+
+  .step-number {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+
+  .step-title {
+    font-family: var(--serif);
+    font-size: 26px;
+    font-weight: 400;
+    color: var(--text);
+    line-height: 1.2;
+  }
+
+  .step-desc {
+    margin-top: 8px;
+    color: var(--muted);
+    font-size: 12px;
+    max-width: 520px;
+    line-height: 1.7;
+  }
+
+  /* Fields */
+  .field {
+    margin-bottom: 24px;
+  }
+
+  .field-label {
+    display: block;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+
+  .field-hint {
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 8px;
+    line-height: 1.6;
+    font-style: italic;
+  }
+
+  input[type="text"],
+  textarea {
+    width: 100%;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 13px;
+    padding: 10px 12px;
+    outline: none;
+    transition: border-color 0.15s;
+    resize: vertical;
+  }
+
+  input[type="text"]:focus,
+  textarea:focus {
+    border-color: var(--border-active);
+    background: #1a1a1a;
+  }
+
+  textarea { min-height: 70px; }
+  textarea.short { min-height: 52px; }
+
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  @media (max-width: 520px) {
+    .field-row { grid-template-columns: 1fr; }
+  }
+
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 28px 0;
+  }
+
+  .section-label {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 20px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* Buttons */
+  .btn-row {
+    display: flex;
+    gap: 12px;
+    margin-top: 32px;
+    align-items: center;
+  }
+
+  .btn {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 10px 20px;
+    border-radius: 3px;
+    border: 1px solid;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-weight: 500;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--black);
+  }
+
+  .btn-primary:hover {
+    background: #d4b87a;
+    border-color: #d4b87a;
+  }
+
+  .btn-secondary {
+    background: transparent;
+    border-color: var(--border);
+    color: var(--muted);
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--border-active);
+    color: var(--text);
+  }
+
+  .btn-generate {
+    background: transparent;
+    border-color: var(--accent);
+    color: var(--accent);
+    padding: 12px 28px;
+    font-size: 12px;
+  }
+
+  .btn-generate:hover {
+    background: var(--accent-dim);
+  }
+
+  /* Warning */
+  .warning {
+    display: none;
+    background: rgba(200, 110, 110, 0.08);
+    border: 1px solid rgba(200, 110, 110, 0.3);
+    border-radius: 4px;
+    padding: 10px 14px;
+    font-size: 11px;
+    color: var(--red);
+    margin-top: 12px;
+    line-height: 1.6;
+  }
+
+  .warning.visible { display: block; }
+
+  /* Prompt output */
+  .prompt-output {
+    display: none;
+    margin-top: 32px;
+  }
+
+  .prompt-output.visible { display: block; }
+
+  .prompt-block {
+    margin-bottom: 24px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .prompt-block-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    background: #1a1a1a;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .prompt-block-title {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .btn-copy {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    color: var(--muted);
+    padding: 4px 10px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .btn-copy:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .btn-copy.copied {
+    border-color: #6ec87a;
+    color: #6ec87a;
+  }
+
+  .prompt-text {
+    padding: 16px;
+    font-size: 12px;
+    line-height: 1.8;
+    color: var(--text);
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  .prompt-note {
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.7;
+    margin-bottom: 20px;
+  }
+
+  /* Rule callout */
+  .rule-box {
+    background: var(--accent-dim);
+    border: 1px solid rgba(200, 169, 110, 0.25);
+    border-radius: 4px;
+    padding: 14px 16px;
+    margin-bottom: 28px;
+  }
+
+  .rule-box p {
+    font-size: 12px;
+    color: var(--accent);
+    line-height: 1.7;
+  }
+
+  .rule-box strong {
+    font-weight: 500;
+  }
+
+  /* Completion */
+  .complete-fields {
+    font-size: 11px;
+    color: var(--muted);
+    margin-left: auto;
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div class="header">
+    <div class="header-label">VART — Expanded Photographic Practice</div>
+    <h1>The <em>Constructed</em> Image</h1>
+    <p class="header-sub">Complete every field before generating your prompts. A blank field means the work is not finished. A vague field means the same thing.</p>
+  </div>
+
+  <!-- Progress -->
+  <div class="progress">
+    <div class="progress-step active" onclick="goTo(0)">
+      <div class="progress-bar"></div>
+      <div class="progress-label">Location</div>
+    </div>
+    <div class="progress-step" onclick="goTo(1)">
+      <div class="progress-bar"></div>
+      <div class="progress-label">Character 1</div>
+    </div>
+    <div class="progress-step" onclick="goTo(2)">
+      <div class="progress-bar"></div>
+      <div class="progress-label">Character 2</div>
+    </div>
+    <div class="progress-step" onclick="goTo(3)">
+      <div class="progress-bar"></div>
+      <div class="progress-label">Character 3</div>
+    </div>
+    <div class="progress-step" onclick="goTo(4)">
+      <div class="progress-bar"></div>
+      <div class="progress-label">Visual Style</div>
+    </div>
+    <div class="progress-step" onclick="goTo(5)">
+      <div class="progress-bar"></div>
+      <div class="progress-label">Prompts</div>
+    </div>
+  </div>
+
+  <!-- STEP 0: LOCATION -->
+  <div class="step active" id="step-0">
+    <div class="step-header">
+      <div class="step-number">Step 01 of 06</div>
+      <div class="step-title">The Location</div>
+      <div class="step-desc">Every image in your series shares this world. The more precisely you define it, the more consistent your three portraits will feel as a body of work.</div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Where is it?</label>
+      <div class="field-hint">Be specific. Not "a café" but "a narrow coffee bar in a European city, early morning, before customers arrive."</div>
+      <textarea id="loc-where" placeholder="Describe the specific place..."></textarea>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Time of day and quality of available light</label>
+      <div class="field-hint">Is it dawn, midday, late afternoon, night? Is the light harsh or diffuse, warm or cool, directional or ambient?</div>
+      <textarea class="short" id="loc-light" placeholder="Time of day and light quality..."></textarea>
+    </div>
+
+    <div class="field">
+      <label class="field-label">One specific detail that makes this place particular</label>
+      <div class="field-hint">A detail that could only exist here — a piece of furniture, a mark on the wall, an object left behind, a view through a window.</div>
+      <textarea class="short" id="loc-detail" placeholder="The one detail that makes this place itself..."></textarea>
+    </div>
+
+    <div class="field">
+      <label class="field-label">The atmosphere of the space</label>
+      <div class="field-hint">What does it feel like to be in this place? Not just what it looks like.</div>
+      <textarea class="short" id="loc-atmosphere" placeholder="The feeling of being here..."></textarea>
+    </div>
+
+    <div class="field">
+      <label class="field-label">What does this space say about the people who inhabit it?</label>
+      <div class="field-hint">A location is never neutral. What does this one reveal?</div>
+      <textarea class="short" id="loc-meaning" placeholder="What the space implies about its inhabitants..."></textarea>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="next(0)">Next — Character 1</button>
+    </div>
+  </div>
+
+  <!-- STEP 1: CHARACTER 1 -->
+  <div class="step" id="step-1">
+    <div class="step-header">
+      <div class="step-number">Step 02 of 06</div>
+      <div class="step-title">Character 1</div>
+      <div class="step-desc">Know this person well enough that every production decision becomes specific rather than arbitrary. These fields are the difference between a person and a type.</div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Name, age, nationality, occupation</label>
+      <textarea class="short" id="c1-identity" placeholder="e.g. Marta, 38, Polish, forensic archivist"></textarea>
+    </div>
+
+    <div class="field">
+      <label class="field-label">One defining physical quality</label>
+      <div class="field-hint">Something visible in a photograph — posture, a feature, how they hold themselves, how they dress.</div>
+      <textarea class="short" id="c1-physical" placeholder="The physical quality a camera would read..."></textarea>
+    </div>
+
+    <div class="field">
+      <label class="field-label">One defining psychological quality</label>
+      <div class="field-hint">Something that shapes how they exist in the world and would be readable in a still image.</div>
+      <textarea class="short" id="c1-psychological" placeholder="The interior quality that shows in the face and body..."></textarea>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Their relationship to the other characters</label>
+      <div class="field-hint">How do they know each other? What is the nature of that connection?</div>
+      <textarea class="short" id="c1-relationship" placeholder="How this person connects to the other two..."></textarea>
+    </div>
+
+    <div class="field-row">
+      <div class="field">
+        <label class="field-label">What they want in this scene</label>
+        <div class="field-hint">Not in life generally — in this specific moment.</div>
+        <textarea class="short" id="c1-want" placeholder="Their immediate desire..."></textarea>
+      </div>
+      <div class="field">
+        <label class="field-label">What they are hiding or not saying</label>
+        <div class="field-hint">Every interesting portrait subject is in some kind of tension.</div>
+        <textarea class="short" id="c1-hiding" placeholder="What lies beneath the surface..."></textarea>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="prev(1)">Back</button>
+      <button class="btn btn-primary" onclick="next(1)">Next — Character 2</button>
+    </div>
+  </div>
+
+  <!-- STEP 2: CHARACTER 2 -->
+  <div class="step" id="step-2">
+    <div class="step-header">
+      <div class="step-number">Step 03 of 06</div>
+      <div class="step-title">Character 2</div>
+      <div class="step-desc">This character shares the same world as Character 1 but has their own interiority. Define them with the same specificity.</div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Name, age, nationality, occupation</label>
+      <textarea class="short" id="c2-identity" placeholder="e.g. Yusuf, 52, Algerian-French, retired cartographer"></textarea>
+    </div>
+
+    <div class="field">
+      <label class="field-label">One defining physical quality</label>
+      <textarea class="short" id="c2-physical" placeholder="The physical quality a camera would read..."></textarea>
+    </div>
+
+    <div class="field">
+      <label class="field-label">One defining psychological quality</label>
+      <textarea class="short" id="c2-psychological" placeholder="The interior quality that shows in the face and body..."></textarea>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Their relationship to the other characters</label>
+      <textarea class="short" id="c2-relationship" placeholder="How this person connects to the other two..."></textarea>
+    </div>
+
+    <div class="field-row">
+      <div class="field">
+        <label class="field-label">What they want in this scene</label>
+        <textarea class="short" id="c2-want" placeholder="Their immediate desire..."></textarea>
+      </div>
+      <div class="field">
+        <label class="field-label">What they are hiding or not saying</label>
+        <textarea class="short" id="c2-hiding" placeholder="What lies beneath the surface..."></textarea>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="prev(2)">Back</button>
+      <button class="btn btn-primary" onclick="next(2)">Next — Character 3</button>
+    </div>
+  </div>
+
+  <!-- STEP 3: CHARACTER 3 -->
+  <div class="step" id="step-3">
+    <div class="step-header">
+      <div class="step-number">Step 04 of 06</div>
+      <div class="step-title">Character 3</div>
+      <div class="step-desc">The third character completes the world. Think about how they shift the dynamic of the group — what do they add that the first two cannot?</div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Name, age, nationality, occupation</label>
+      <textarea class="short" id="c3-identity" placeholder="e.g. Soo-Jin, 24, Korean, graduate student in musicology"></textarea>
+    </div>
+
+    <div class="field">
+      <label class="field-label">One defining physical quality</label>
+      <textarea class="short" id="c3-physical" placeholder="The physical quality a camera would read..."></textarea>
+    </div>
+
+    <div class="field">
+      <label class="field-label">One defining psychological quality</label>
+      <textarea class="short" id="c3-psychological" placeholder="The interior quality that shows in the face and body..."></textarea>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Their relationship to the other characters</label>
+      <textarea class="short" id="c3-relationship" placeholder="How this person connects to the other two..."></textarea>
+    </div>
+
+    <div class="field-row">
+      <div class="field">
+        <label class="field-label">What they want in this scene</label>
+        <textarea class="short" id="c3-want" placeholder="Their immediate desire..."></textarea>
+      </div>
+      <div class="field">
+        <label class="field-label">What they are hiding or not saying</label>
+        <textarea class="short" id="c3-hiding" placeholder="What lies beneath the surface..."></textarea>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="prev(3)">Back</button>
+      <button class="btn btn-primary" onclick="next(3)">Next — Visual Style</button>
+    </div>
+  </div>
+
+  <!-- STEP 4: VISUAL STYLE -->
+  <div class="step" id="step-4">
+    <div class="step-header">
+      <div class="step-number">Step 05 of 06</div>
+      <div class="step-title">Visual Style</div>
+      <div class="step-desc">Do not name a filmmaker or photographer. Describe what you actually mean. If you write "cinematic" or "like a movie" you have not answered the question.</div>
+    </div>
+
+    <div class="rule-box">
+      <p><strong>The rule:</strong> If you cannot describe the visual style in your own words, you do not yet know what image you are making. Every field below should produce language you could hand to a lighting technician or a colourist and have them understand exactly what to do.</p>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Quality and direction of light</label>
+      <div class="field-hint">Hard or soft? Where is it coming from — side, front, back, above? Warm or cool in colour temperature? Single source or multiple?</div>
+      <textarea class="short" id="vs-light" placeholder="Describe the light in specific terms..."></textarea>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Colour palette</label>
+      <div class="field-hint">What are the dominant tones? Saturated or desaturated? High contrast or compressed? Are there specific colours that recur?</div>
+      <textarea class="short" id="vs-colour" placeholder="Describe the palette and its emotional register..."></textarea>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Lens feel</label>
+      <div class="field-hint">Wide and close to the subject, creating distortion and proximity? Compressed and distant, flattening planes? Somewhere between? What does the focal length do to the relationship between subject and environment?</div>
+      <textarea class="short" id="vs-lens" placeholder="Describe how the lens relates subject to space..."></textarea>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Surface and texture</label>
+      <div class="field-hint">Is the image clean and sharp? Grainy, film-like, or analogue in texture? Painterly or illustrative? How does the surface quality relate to the subject matter?</div>
+      <textarea class="short" id="vs-texture" placeholder="Describe the surface quality of the image..."></textarea>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Overall mood — one word</label>
+      <input type="text" id="vs-mood" placeholder="e.g. elegiac, volatile, suspended, claustrophobic...">
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="prev(4)">Back</button>
+      <button class="btn btn-generate" onclick="generatePrompts()">Generate Prompts</button>
+    </div>
+    <div class="warning" id="warning-4">Please complete all Visual Style fields before generating prompts.</div>
+  </div>
+
+  <!-- STEP 5: PROMPTS -->
+  <div class="step" id="step-5">
+    <div class="step-header">
+      <div class="step-number">Step 06 of 06</div>
+      <div class="step-title">Your Prompts</div>
+      <div class="step-desc">These prompts are assembled directly from your Production Sheet. Copy each one and paste it into your AI image generation tool. Iterate — your first output is not your final image.</div>
+    </div>
+
+    <p class="prompt-note">Each prompt is built from your production sheet. If the output is not what you intended, the answer is in the sheet — not in the prompt. Go back and refine your descriptions, then regenerate.</p>
+
+    <div class="prompt-output visible" id="prompt-output">
+
+      <div class="prompt-block">
+        <div class="prompt-block-header">
+          <span class="prompt-block-title" id="p1-title">Character 1 Portrait</span>
+          <button class="btn-copy" onclick="copyPrompt('prompt-1', this)">Copy</button>
+        </div>
+        <div class="prompt-text" id="prompt-1"></div>
+      </div>
+
+      <div class="prompt-block">
+        <div class="prompt-block-header">
+          <span class="prompt-block-title" id="p2-title">Character 2 Portrait</span>
+          <button class="btn-copy" onclick="copyPrompt('prompt-2', this)">Copy</button>
+        </div>
+        <div class="prompt-text" id="prompt-2"></div>
+      </div>
+
+      <div class="prompt-block">
+        <div class="prompt-block-header">
+          <span class="prompt-block-title" id="p3-title">Character 3 Portrait</span>
+          <button class="btn-copy" onclick="copyPrompt('prompt-3', this)">Copy</button>
+        </div>
+        <div class="prompt-text" id="prompt-3"></div>
+      </div>
+
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="prev(5)">Back to Visual Style</button>
+      <button class="btn btn-secondary" onclick="goTo(0)">Start Over</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  let current = 0;
+  const total = 6;
+
+  function goTo(n) {
+    document.querySelectorAll('.step').forEach((s, i) => {
+      s.classList.toggle('active', i === n);
+    });
+    document.querySelectorAll('.progress-step').forEach((s, i) => {
+      s.classList.remove('active', 'done');
+      if (i === n) s.classList.add('active');
+      else if (i < n) s.classList.add('done');
+    });
+    current = n;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function next(from) {
+    goTo(from + 1);
+  }
+
+  function prev(from) {
+    goTo(from - 1);
+  }
+
+  function val(id) {
+    const el = document.getElementById(id);
+    return el ? el.value.trim() : '';
+  }
+
+  function generatePrompts() {
+    // Validate visual style fields
+    const vsFields = ['vs-light', 'vs-colour', 'vs-lens', 'vs-texture', 'vs-mood'];
+    const missing = vsFields.filter(id => !val(id));
+    const warning = document.getElementById('warning-4');
+
+    if (missing.length > 0) {
+      warning.classList.add('visible');
+      return;
+    }
+    warning.classList.remove('visible');
+
+    const loc = {
+      where: val('loc-where'),
+      light: val('loc-light'),
+      detail: val('loc-detail'),
+      atmosphere: val('loc-atmosphere'),
+      meaning: val('loc-meaning')
+    };
+
+    const vs = {
+      light: val('vs-light'),
+      colour: val('vs-colour'),
+      lens: val('vs-lens'),
+      texture: val('vs-texture'),
+      mood: val('vs-mood')
+    };
+
+    const chars = [
+      {
+        identity: val('c1-identity'),
+        physical: val('c1-physical'),
+        psychological: val('c1-psychological'),
+        relationship: val('c1-relationship'),
+        want: val('c1-want'),
+        hiding: val('c1-hiding')
+      },
+      {
+        identity: val('c2-identity'),
+        physical: val('c2-physical'),
+        psychological: val('c2-psychological'),
+        relationship: val('c2-relationship'),
+        want: val('c2-want'),
+        hiding: val('c2-hiding')
+      },
+      {
+        identity: val('c3-identity'),
+        physical: val('c3-physical'),
+        psychological: val('c3-psychological'),
+        relationship: val('c3-relationship'),
+        want: val('c3-want'),
+        hiding: val('c3-hiding')
+      }
+    ];
+
+    chars.forEach((c, i) => {
+      const n = i + 1;
+      const name = c.identity.split(',')[0].trim() || `Character ${n}`;
+
+      const locDesc = loc.where
+        ? `${loc.where}${loc.detail ? '. ' + loc.detail : ''}${loc.atmosphere ? '. ' + loc.atmosphere : ''}.`
+        : 'an unspecified location.';
+
+      const prompt = [
+        `Photorealistic portrait photograph.`,
+        c.identity ? `Subject: ${c.identity}.` : '',
+        c.physical ? `Physical presence: ${c.physical}.` : '',
+        c.psychological ? `Psychological state: ${c.psychological}.` : '',
+        c.want || c.hiding ? `In this moment they ${c.want ? `want: ${c.want}` : ''}${c.want && c.hiding ? ', yet' : ''}${c.hiding ? ` conceal: ${c.hiding}` : ''}.` : '',
+        ``,
+        `Location: ${locDesc}`,
+        loc.light ? `Available light: ${loc.light}.` : '',
+        ``,
+        `Light: ${vs.light}.`,
+        `Colour: ${vs.colour}.`,
+        `Lens: ${vs.lens}.`,
+        `Surface: ${vs.texture}.`,
+        `Mood: ${vs.mood}.`,
+        ``,
+        `Photorealistic, high production value, single subject portrait.`
+      ].filter(l => l !== undefined).join('\n').replace(/\n{3,}/g, '\n\n').trim();
+
+      document.getElementById(`prompt-${n}`).textContent = prompt;
+
+      const titleEl = document.getElementById(`p${n}-title`);
+      if (titleEl) titleEl.textContent = `Character ${n} — ${name}`;
+    });
+
+    goTo(5);
+  }
+
+  function copyPrompt(id, btn) {
+    const text = document.getElementById(id).textContent;
+    navigator.clipboard.writeText(text).then(() => {
+      btn.textContent = 'Copied';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.textContent = 'Copy';
+        btn.classList.remove('copied');
+      }, 2000);
+    }).catch(() => {
+      // Fallback for older browsers
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      btn.textContent = 'Copied';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.textContent = 'Copy';
+        btn.classList.remove('copied');
+      }, 2000);
+    });
+  }
+</script>
+</body>
+</html>
