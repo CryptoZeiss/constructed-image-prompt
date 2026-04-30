@@ -189,7 +189,7 @@
   input[type="text"]:focus,
   textarea:focus {
     border-color: var(--border-active);
-    background: #1a1a1a;
+    background: #f8f8f8;
   }
 
   textarea { min-height: 70px; }
@@ -245,12 +245,12 @@
   .btn-primary {
     background: var(--accent);
     border-color: var(--accent);
-    color: var(--black);
+    color: #ffffff;
   }
 
   .btn-primary:hover {
-    background: #d4b87a;
-    border-color: #d4b87a;
+    background: #aa1111;
+    border-color: #aa1111;
   }
 
   .btn-secondary {
@@ -307,20 +307,38 @@
     overflow: hidden;
   }
 
+  .prompt-block.location-block {
+    border-color: var(--accent);
+    border-width: 2px;
+  }
+
   .prompt-block-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 10px 14px;
-    background: #1a1a1a;
+    background: var(--dark);
     border-bottom: 1px solid var(--border);
   }
 
+  .location-block .prompt-block-header {
+    background: var(--accent-dim);
+    border-bottom-color: var(--accent);
+  }
+
   .prompt-block-title {
-    font-size: 10px;
+    font-size: 11px;
     letter-spacing: 0.15em;
     text-transform: uppercase;
     color: var(--accent);
+    font-weight: 500;
+  }
+
+  .prompt-step-note {
+    font-size: 11px;
+    color: var(--muted);
+    font-style: italic;
+    margin-left: 12px;
   }
 
   .btn-copy {
@@ -343,13 +361,13 @@
   }
 
   .btn-copy.copied {
-    border-color: #6ec87a;
-    color: #6ec87a;
+    border-color: #2a9a3a;
+    color: #2a9a3a;
   }
 
   .prompt-text {
     padding: 16px;
-    font-size: 12px;
+    font-size: 13px;
     line-height: 1.8;
     color: var(--text);
     white-space: pre-wrap;
@@ -357,28 +375,51 @@
   }
 
   .prompt-note {
-    font-size: 15px;
+    font-size: 14px;
     color: var(--muted);
     line-height: 1.7;
     margin-bottom: 20px;
   }
 
+  .workflow-box {
+    background: var(--accent-dim);
+    border: 1px solid rgba(204, 34, 34, 0.2);
+    border-radius: 4px;
+    padding: 16px 18px;
+    margin-bottom: 28px;
+  }
+
+  .workflow-box p {
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.8;
+    margin-bottom: 8px;
+  }
+
+  .workflow-box p:last-child { margin-bottom: 0; }
+
+  .workflow-box strong {
+    color: var(--accent);
+    font-weight: 500;
+  }
+
   /* Rule callout */
   .rule-box {
     background: var(--accent-dim);
-    border: 1px solid rgba(200, 169, 110, 0.25);
+    border: 1px solid rgba(204, 34, 34, 0.2);
     border-radius: 4px;
     padding: 14px 16px;
     margin-bottom: 28px;
   }
 
   .rule-box p {
-    font-size: 12px;
-    color: var(--accent);
+    font-size: 13px;
+    color: var(--text);
     line-height: 1.7;
   }
 
   .rule-box strong {
+    color: var(--accent);
     font-weight: 500;
   }
 
@@ -396,7 +437,7 @@
   <div class="header">
     <div class="header-label">PROMPT GENERATOR PRODUCTION SHEET</div>
     <h1>The <em>Constructed</em> Image</h1>
-    <p class="header-sub">Complete every field before generating your prompts. A blank or vague field means the work is not finished. DO NOT CLOSE BROWSER WITHOUT COPYING PROMPT.</p>
+    <p class="header-sub">Complete every field before generating your prompts. A blank or vague field means the work is not finished. DO NOT CLOSE BROWSER WITHOUT COPYING YOUR PROMPTS.</p>
   </div>
 
   <!-- Progress -->
@@ -663,16 +704,31 @@
     <div class="step-header">
       <div class="step-number">Step 06 of 06</div>
       <div class="step-title">Your Prompts</div>
-      <div class="step-desc">These prompts are assembled directly from your Production Sheet. Copy each one and paste it into your AI image generation tool. Iterate — your first output is not your final image.</div>
+      <div class="step-desc">Four separate prompts assembled from your Production Sheet. Use them in order — establish the location first, then place each character within that world.</div>
     </div>
 
-    <p class="prompt-note">Each prompt is built from your production sheet. If the output is not what you intended, the answer is in the sheet — not in the prompt. Go back and refine your descriptions, then regenerate.</p>
+    <div class="workflow-box">
+      <p><strong>How to use these prompts:</strong></p>
+      <p>1. Copy the Location prompt first and generate your location image. Iterate until the space feels right.</p>
+      <p>2. Once you have a location image you are happy with, use it as a reference image in your AI tool when generating each character portrait. In Midjourney paste the image URL directly into the prompt field before your text prompt. In other tools, use the image reference or image-to-image function.</p>
+      <p>3. The character prompts contain no location description — the location image itself carries that information.</p>
+    </div>
 
     <div class="prompt-output visible" id="prompt-output">
 
+      <!-- Location prompt -->
+      <div class="prompt-block location-block">
+        <div class="prompt-block-header">
+          <span class="prompt-block-title">Prompt 1 — Location</span>
+          <button class="btn-copy" onclick="copyPrompt('prompt-location', this)">Copy</button>
+        </div>
+        <div class="prompt-text" id="prompt-location"></div>
+      </div>
+
+      <!-- Character prompts -->
       <div class="prompt-block">
         <div class="prompt-block-header">
-          <span class="prompt-block-title" id="p1-title">Character 1 Portrait</span>
+          <span class="prompt-block-title" id="p1-title">Prompt 2 — Character 1</span>
           <button class="btn-copy" onclick="copyPrompt('prompt-1', this)">Copy</button>
         </div>
         <div class="prompt-text" id="prompt-1"></div>
@@ -680,7 +736,7 @@
 
       <div class="prompt-block">
         <div class="prompt-block-header">
-          <span class="prompt-block-title" id="p2-title">Character 2 Portrait</span>
+          <span class="prompt-block-title" id="p2-title">Prompt 3 — Character 2</span>
           <button class="btn-copy" onclick="copyPrompt('prompt-2', this)">Copy</button>
         </div>
         <div class="prompt-text" id="prompt-2"></div>
@@ -688,7 +744,7 @@
 
       <div class="prompt-block">
         <div class="prompt-block-header">
-          <span class="prompt-block-title" id="p3-title">Character 3 Portrait</span>
+          <span class="prompt-block-title" id="p3-title">Prompt 4 — Character 3</span>
           <button class="btn-copy" onclick="copyPrompt('prompt-3', this)">Copy</button>
         </div>
         <div class="prompt-text" id="prompt-3"></div>
@@ -706,7 +762,6 @@
 
 <script>
   let current = 0;
-  const total = 6;
 
   function goTo(n) {
     document.querySelectorAll('.step').forEach((s, i) => {
@@ -721,13 +776,8 @@
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  function next(from) {
-    goTo(from + 1);
-  }
-
-  function prev(from) {
-    goTo(from - 1);
-  }
+  function next(from) { goTo(from + 1); }
+  function prev(from) { goTo(from - 1); }
 
   function val(id) {
     const el = document.getElementById(id);
@@ -735,7 +785,6 @@
   }
 
   function generatePrompts() {
-    // Validate visual style fields
     const vsFields = ['vs-light', 'vs-colour', 'vs-lens', 'vs-texture', 'vs-mood'];
     const missing = vsFields.filter(id => !val(id));
     const warning = document.getElementById('warning-4');
@@ -762,30 +811,42 @@
       mood: val('vs-mood')
     };
 
+    // ── Location prompt ───────────────────────────────────────────────────────
+    const locationPrompt = [
+      `Photorealistic photograph of an empty interior or exterior space. No people.`,
+      loc.where    ? `Location: ${loc.where}.`        : '',
+      loc.light    ? `${loc.light}.`                  : '',
+      loc.detail   ? `Key detail: ${loc.detail}.`     : '',
+      loc.atmosphere ? `Atmosphere: ${loc.atmosphere}.` : '',
+      loc.meaning  ? `${loc.meaning}.`                : '',
+      ``,
+      `Light: ${vs.light}.`,
+      `Colour: ${vs.colour}.`,
+      `Lens: ${vs.lens}.`,
+      `Surface: ${vs.texture}.`,
+      `Mood: ${vs.mood}.`,
+      ``,
+      `High production value, photorealistic, no figures.`
+    ].filter(l => l !== '').join('\n').replace(/\n{3,}/g, '\n\n').trim();
+
+    document.getElementById('prompt-location').textContent = locationPrompt;
+
+    // ── Character prompts (no location description) ───────────────────────────
     const chars = [
       {
-        identity: val('c1-identity'),
-        physical: val('c1-physical'),
-        psychological: val('c1-psychological'),
-        relationship: val('c1-relationship'),
-        want: val('c1-want'),
-        hiding: val('c1-hiding')
+        identity: val('c1-identity'), physical: val('c1-physical'),
+        psychological: val('c1-psychological'), relationship: val('c1-relationship'),
+        want: val('c1-want'), hiding: val('c1-hiding')
       },
       {
-        identity: val('c2-identity'),
-        physical: val('c2-physical'),
-        psychological: val('c2-psychological'),
-        relationship: val('c2-relationship'),
-        want: val('c2-want'),
-        hiding: val('c2-hiding')
+        identity: val('c2-identity'), physical: val('c2-physical'),
+        psychological: val('c2-psychological'), relationship: val('c2-relationship'),
+        want: val('c2-want'), hiding: val('c2-hiding')
       },
       {
-        identity: val('c3-identity'),
-        physical: val('c3-physical'),
-        psychological: val('c3-psychological'),
-        relationship: val('c3-relationship'),
-        want: val('c3-want'),
-        hiding: val('c3-hiding')
+        identity: val('c3-identity'), physical: val('c3-physical'),
+        psychological: val('c3-psychological'), relationship: val('c3-relationship'),
+        want: val('c3-want'), hiding: val('c3-hiding')
       }
     ];
 
@@ -793,19 +854,14 @@
       const n = i + 1;
       const name = c.identity.split(',')[0].trim() || `Character ${n}`;
 
-      const locDesc = loc.where
-        ? `${loc.where}${loc.detail ? '. ' + loc.detail : ''}${loc.atmosphere ? '. ' + loc.atmosphere : ''}.`
-        : 'an unspecified location.';
-
       const prompt = [
-        `Photorealistic portrait photograph.`,
-        c.identity ? `Subject: ${c.identity}.` : '',
-        c.physical ? `Physical presence: ${c.physical}.` : '',
+        `Photorealistic portrait photograph. Single subject.`,
+        c.identity     ? `Subject: ${c.identity}.`                   : '',
+        c.physical     ? `Physical presence: ${c.physical}.`         : '',
         c.psychological ? `Psychological state: ${c.psychological}.` : '',
-        c.want || c.hiding ? `In this moment they ${c.want ? `want: ${c.want}` : ''}${c.want && c.hiding ? ', yet' : ''}${c.hiding ? ` conceal: ${c.hiding}` : ''}.` : '',
-        ``,
-        `Location: ${locDesc}`,
-        loc.light ? `Available light: ${loc.light}.` : '',
+        (c.want || c.hiding)
+          ? `In this moment: ${c.want ? `wants — ${c.want}` : ''}${c.want && c.hiding ? '. Conceals — ' : ''}${c.hiding ? `${c.hiding}` : ''}.`
+          : '',
         ``,
         `Light: ${vs.light}.`,
         `Colour: ${vs.colour}.`,
@@ -814,12 +870,12 @@
         `Mood: ${vs.mood}.`,
         ``,
         `Photorealistic, high production value, single subject portrait.`
-      ].filter(l => l !== undefined).join('\n').replace(/\n{3,}/g, '\n\n').trim();
+      ].filter(l => l !== '').join('\n').replace(/\n{3,}/g, '\n\n').trim();
 
       document.getElementById(`prompt-${n}`).textContent = prompt;
 
       const titleEl = document.getElementById(`p${n}-title`);
-      if (titleEl) titleEl.textContent = `Character ${n} — ${name}`;
+      if (titleEl) titleEl.textContent = `Prompt ${n + 1} — ${name}`;
     });
 
     goTo(5);
@@ -830,12 +886,8 @@
     navigator.clipboard.writeText(text).then(() => {
       btn.textContent = 'Copied';
       btn.classList.add('copied');
-      setTimeout(() => {
-        btn.textContent = 'Copy';
-        btn.classList.remove('copied');
-      }, 2000);
+      setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
     }).catch(() => {
-      // Fallback for older browsers
       const ta = document.createElement('textarea');
       ta.value = text;
       ta.style.position = 'fixed';
@@ -846,10 +898,7 @@
       document.body.removeChild(ta);
       btn.textContent = 'Copied';
       btn.classList.add('copied');
-      setTimeout(() => {
-        btn.textContent = 'Copy';
-        btn.classList.remove('copied');
-      }, 2000);
+      setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
     });
   }
 </script>
